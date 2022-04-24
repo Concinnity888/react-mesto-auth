@@ -55,6 +55,10 @@ function App() {
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
 
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
@@ -138,14 +142,14 @@ function App() {
   };
 
   const checkToken = () => {
-    const jwt = localStorage.getItem('jwt');
+    const token = localStorage.getItem('token');
 
-    if (jwt) {
+    if (token) {
       auth
-        .checkToken(jwt)
+        .checkToken(token)
         .then((res) => {
           setIsLoggedIn(true);
-          setEmail(res.email);
+          setEmail(res.data.email);
           history.push('/');
         })
         .catch((err) => console.log(err));
@@ -209,9 +213,7 @@ function App() {
           <Route path='/signup'>
             <Register onRegister={handleRegister} />
           </Route>
-          <Route>
-            <Redirect to='/' />
-          </Route>
+          <Route path='*'>{isLoggedIn && <Redirect to='/' />}</Route>
         </Switch>
 
         {isLoggedIn && <Footer />}
