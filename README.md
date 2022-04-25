@@ -8,6 +8,7 @@
 - React.js
 - React Hooks
 - React Router
+- localStorage
 
 **Запуск приложения**
 
